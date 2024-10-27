@@ -6,7 +6,7 @@ import numpy as np
 import time
 import io
 import threading
-
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -24,7 +24,6 @@ def search_user_rating(username):
         "Accept": "application/json"
     }
     response = requests.get(url, headers=headers, params=querystring)
-    print(response.status_code)
     return response.json()["items"][0]["rating"]
 
 # 데이터 수집 함수

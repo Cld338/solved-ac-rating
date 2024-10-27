@@ -150,4 +150,4 @@ if __name__ == '__main__':
     data_collection_thread = threading.Thread(target=collect_data, daemon=True)
     data_collection_thread.start()
     # Flask 서버 시작
-    app.run(port=80)
+    app.run(__name__)

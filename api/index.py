@@ -1,6 +1,5 @@
 from flask import Flask, request, send_file
 import requests
-import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import percentileofscore, gaussian_kde
 import numpy as np
@@ -12,8 +11,6 @@ app = Flask(__name__)
 
 # 주기적인 데이터 수집 설정
 COLLECTION_INTERVAL = 60*60*24  # 하루 주기로 분포 업데이트
-
-
 
 def search_user_rating(username):
     import requests
@@ -60,8 +57,7 @@ def collect_data():
                 print("데이터 수집 중 오류 발생: ", response.status_code)
                 break
 
-        df = pd.DataFrame(ratings, columns=["Rating"])
-        df.to_csv("ratings.csv", index=False)
+        np.savetxt("ratings.csv", ratings, delimiter=",")
         print("Data collection completed and saved to ratings.csv")
 
         # 주기 대기 후 재수집
@@ -70,7 +66,9 @@ def collect_data():
 
 # 데이터 로드 함수
 def load_data():
-    return pd.read_csv("ratings.csv")
+    return np.loadtxt("ratings.csv", delimiter=",")
+
+
 
 # 이미지 제공 엔드포인트
 @app.route('/user-rating-image')
@@ -91,7 +89,7 @@ def user_rating_image():
     df = load_data()
     
     # 사용자 퍼센타일 계산
-    user_percentile = 100 - percentileofscore(df["Rating"], curr_rating)
+    # user_percentile = 100 - percentileofscore(df["Rating"], curr_rating)
     
     # 커널 밀도 함수 계산
     kde = gaussian_kde(df["Rating"])
@@ -133,8 +131,6 @@ def user_rating_image():
     
     # 축 숨기기
     ax.get_yaxis().set_visible(False)
-    # for spine in ax.spines.values():
-    #     spine.set_visible(False)
 
     
     # 그래프 바깥 여백 줄이기

@@ -7,11 +7,14 @@ import time
 import io
 import threading
 
+
 app = Flask(__name__)
 
 # 주기적인 데이터 수집 설정
 COLLECTION_INTERVAL = 60*60*24  # 하루 주기로 분포 업데이트
 
+ratings_collecting=[]
+ratings=[]
 def search_user_rating(username):
     import requests
     url = "https://solved.ac/api/v3/search/user"
@@ -28,7 +31,6 @@ def search_user_rating(username):
 def collect_data():
     while True:
         url = "https://solved.ac/api/v3/ranking/tier"
-        ratings = []
         requests_per_cycle = 300  # 15분당 최대 300회
         entries_per_request = 50  # 한 페이지당 50개
         total_entries = 173942  # 총 예상 엔트리 수
@@ -52,21 +54,15 @@ def collect_data():
             if response.status_code == 200:
                 items = response.json().get("items", [])
                 for item in items:
-                    ratings.append(item["rating"])  # 각 사용자의 레이팅을 리스트에 추가
+                    ratings_collecting.append(item["rating"])  # 각 사용자의 레이팅을 리스트에 추가
             else:
                 print("데이터 수집 중 오류 발생: ", response.status_code)
                 break
-
-        np.savetxt("ratings.csv", ratings, delimiter=",")
         print("Data collection completed and saved to ratings.csv")
 
+        ratings = ratings_collecting
         # 주기 대기 후 재수집
         time.sleep(COLLECTION_INTERVAL)
-
-
-# 데이터 로드 함수
-def load_data():
-    return np.loadtxt("ratings.csv", delimiter=",")
 
 
 
@@ -86,7 +82,7 @@ def user_rating_image():
     text_color = request.args.get("textColor", "teal")
 
     # 데이터를 로드
-    df = load_data()
+    df = {"Rating":np.array(ratings)}
     
     # 사용자 퍼센타일 계산
     # user_percentile = 100 - percentileofscore(df["Rating"], curr_rating)

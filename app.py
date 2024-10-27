@@ -81,7 +81,7 @@ def user_rating_image():
     text_color = request.args.get("textColor", "teal")
 
     # 데이터를 로드
-    df = {"Rating":np.array(ratings)}
+    df = pd.DataFrame(ratings, columns=["Rating"])
     
     # 사용자 퍼센타일 계산
     # user_percentile = 100 - percentileofscore(df["Rating"], curr_rating)

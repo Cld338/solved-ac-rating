@@ -2,7 +2,6 @@ from flask import Flask, request, send_file
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 from scipy.stats import percentileofscore, gaussian_kde
 import numpy as np
 import time
@@ -13,13 +12,6 @@ app = Flask(__name__)
 
 # 주기적인 데이터 수집 설정
 COLLECTION_INTERVAL = 60*60*24  # 하루 주기로 분포 업데이트
-
-def simulate_data_collection():
-    # 랜덤한 레이팅 데이터 생성
-    ratings = np.random.randint(800, 3000, 10000)  # 800에서 3000 사이의 랜덤 값 10,000개 생성
-    df = pd.DataFrame(ratings, columns=["Rating"])
-    df.to_csv("ratings.csv", index=False)
-    print("Simulated data collection completed and saved to ratings.csv")
 
 
 

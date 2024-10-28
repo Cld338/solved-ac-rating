@@ -6,7 +6,7 @@
 
     GET /user-rating-image?name=wlgns06&size=100&innerbgcolor=lightgray&outerbgcolor=lightgray
 
-![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=100&innerbgcolor=lightgray&outerbgcolor=lightgray)
+![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=100)
 
 
 | Params        | Default            | Description                       |

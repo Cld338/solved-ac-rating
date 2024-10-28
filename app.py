@@ -16,7 +16,7 @@ COLLECTION_INTERVAL = 60*60*24  # 하루 주기로 분포 업데이트
 ratings_collecting=[]
 ratings=[]
 def search_user_rating(username):
-    import requests
+    
     url = "https://solved.ac/api/v3/search/user"
     querystring = {"query":username}
     headers = {
@@ -37,6 +37,8 @@ def collect_data():
 
         print("Starting data collection...")
         for page in range(pages_to_retrieve):
+            if page==5:
+                break
             if page > 0 and page % requests_per_cycle == 0:
                 print("Rate limit reached, waiting for 15 minutes...")
                 time.sleep(15 * 60)  # 15분 대기
@@ -57,7 +59,6 @@ def collect_data():
             else:
                 print("데이터 수집 중 오류 발생: ", response.status_code)
                 break
-        print("Data collection completed and saved to ratings.csv")
 
         ratings = ratings_collecting
         # 주기 대기 후 재수집

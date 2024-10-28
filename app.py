@@ -37,6 +37,7 @@ def collect_data():
 
         print("Starting data collection...")
         for page in range(pages_to_retrieve):
+            print(page)
             if page > 0 and page % requests_per_cycle == 0:
                 print("Rate limit reached, waiting for 15 minutes...")
                 time.sleep(15 * 60)  # 15분 대기
@@ -68,9 +69,9 @@ def collect_data():
 @app.route('/user-rating-image')
 def user_rating_image():
     # URL 파라미터에서 사용자 ID와 현재 레이팅 값 추출
-    user_id = request.args.get("name")
+    user_id = request.args.get("name", "wlgns06")
     curr_rating = search_user_rating(user_id)
-    fill = request.args.get("fill", "False").lower() == "true"
+    fill = request.args.get("fill", "true").lower() == "true"
 
     # 색상 파라미터 받기 (기본 색상 설정)
     color = request.args.get("color", "mediumseagreen")
@@ -138,6 +139,10 @@ def user_rating_image():
     
     # 이미지를 파일로 반환
     return send_file(img, mimetype='image/png')
+
+@app.route('/user-rating-image')
+def test():
+    return "Hello, World!"
 
 if __name__ == '__main__':
     # 데이터 수집 스레드를 데몬 스레드로 설정하고 시작

@@ -28,6 +28,7 @@ def search_user_rating(username):
 
 # 데이터 수집 함수
 def collect_data():
+    global ratings_collecting, ratings
     while True:
         url = "https://solved.ac/api/v3/ranking/tier"
         requests_per_cycle = 300  # 15분당 최대 300회
@@ -81,7 +82,7 @@ def user_rating_image():
     text_color = request.args.get("textColor", "teal")
 
     # 데이터를 로드
-    df = pd.DataFrame(ratings, columns=["Rating"])
+    df = pd.DataFrame(ratings if ratings else ratings_collecting, columns=["Rating"])
     
     # 사용자 퍼센타일 계산
     # user_percentile = 100 - percentileofscore(df["Rating"], curr_rating)

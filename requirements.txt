@@ -1,7 +1,8 @@
-Flask==3.0.3
+aiohttp==3.10.0
+fastapi==0.115.4
 matplotlib==3.9.2
 numpy==2.1.2
 pandas==2.2.3
 Requests==2.32.3
 scipy==1.14.1
-gunicorn==19.7.1
+uvicorn==0.32.0

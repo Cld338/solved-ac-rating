@@ -37,8 +37,6 @@ def collect_data():
 
         print("Starting data collection...")
         for page in range(pages_to_retrieve):
-            if page==5:
-                break
             if page > 0 and page % requests_per_cycle == 0:
                 print("Rate limit reached, waiting for 15 minutes...")
                 time.sleep(15 * 60)  # 15분 대기

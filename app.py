@@ -147,7 +147,8 @@ def test():
 
 if __name__ == '__main__':
     # 데이터 수집 스레드를 데몬 스레드로 설정하고 시작
-    data_collection_thread = threading.Thread(target=collect_data, daemon=True)
-    data_collection_thread.start()
+    # data_collection_thread = threading.Thread(target=collect_data, daemon=True)
+    # data_collection_thread.start()
+    collect_data()
     # Flask 서버 시작
     app.run(__name__)

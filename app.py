@@ -141,7 +141,7 @@ def user_rating_image():
     # 이미지를 파일로 반환
     return send_file(img, mimetype='image/png')
 
-@app.route('/user-rating-image')
+@app.route('/')
 def test():
     return "Hello, World!"
 

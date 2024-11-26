@@ -56,7 +56,7 @@
        source venv/bin/activate  # Windows의 경우: venv\Scripts\activate
        pip install -r requirements.txt
 
-## Usaeg
+## Usage
 
     uvicorn app:app --host 0.0.0.0 --port 5000
 

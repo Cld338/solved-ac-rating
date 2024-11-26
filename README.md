@@ -5,6 +5,8 @@
 **Sample Request:**
 
     GET /user-rating-image?name=wlgns06&size=100
+    
+    ![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=100)
 
 ![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=100)
 

@@ -6,9 +6,10 @@
 
     GET /user-rating-image?name=wlgns06&size=100
     
-    ![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=100)
+    ![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=60)
 
-![image](https://github.com/user-attachments/assets/0954db81-e60a-4a2e-8dad-f7d755b7d1a9)
+![image](https://github.com/user-attachments/assets/9c0893ec-7fa2-4891-b122-abd85bc84684)
+
 
 
 

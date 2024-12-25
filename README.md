@@ -8,7 +8,8 @@
     
     ![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=100)
 
-![image](https://github.com/user-attachments/assets/c2f9d474-474c-414c-b45b-c6388d1c042e)
+![image](https://github.com/user-attachments/assets/0954db81-e60a-4a2e-8dad-f7d755b7d1a9)
+
 
 
 

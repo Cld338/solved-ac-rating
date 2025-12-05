@@ -81,8 +81,7 @@ GET /user-rating-image?name=example_user&theme=dark&format=svg
 * `TIER_COLORS`: 레이팅 임계값에 따른 색상 코드 매핑입니다.
 
 ## 로깅
-
-애플리케이션은 표준 Python `logging` 모듈을 사용합니다. 로그에는 타임스탬프, 심각도 수준 및 다음 메시지가 포함됩니다:
+로그에는 타임스탬프, 심각도 수준 및 다음 메시지가 포함됩니다:
 * 서버 시작 및 종료
 * 데이터 수집 진행 상황 및 상태
 * 파일 작업 (저장/로드/교체)

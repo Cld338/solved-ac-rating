@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  # 1. 앱 서비스
+  fastapi-app:
+    build: .
+    container_name: my-rating-app
+    restart: always
+    # 포트 연결 불필요 (터널이 내부망으로 접속)
+
+  # 2. 터널 서비스 (무료 랜덤 주소 모드)
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: my-tunnel
+    restart: always
+    # 중요: command와 depends_on은 tunnel 밑에, 들여쓰기 2칸 또는 4칸으로 맞춰야 합니다.
+    command: tunnel --url http://fastapi-app:8000
+    depends_on:
+      - fastapi-app

@@ -1,87 +1,113 @@
-# Solved.ac Rating 
+# Solved.ac 레이팅 분포 배지 서비스
 
-이 프로젝트는 Solved.ac의 사용자의 레이팅을 기반으로 분포 그래프를 생성하여 이미지를 반환하는 FastAPI 애플리케이션입니다. 이를 통해 사용자는 자신의 레이팅이 전체 사용자 분포에서 어느 위치에 있는지 시각적으로 확인할 수 있습니다.
+## 개요
 
-**Sample Request:**
-
-    GET /user-rating-image?name=wlgns06&size=100
-    
-    ![Solved.ac Rating](https://solved-ac-rating.run.goorm.site/user-rating-image?name=wlgns06&size=60)
-
-![image](https://github.com/user-attachments/assets/9c0893ec-7fa2-4891-b122-abd85bc84684)
+ Solved.ac 사용자의 레이팅을 시각화하여 배지를 생성합니다. 전체 사용자 대비 특정 사용자의 위치를 보여주는 이미지(SVG 또는 PNG)로 제공합니다.
 
 
+## 사전 요구 사항
 
+* **Python**: 3.8 버전 이상
+* **시스템 폰트**: 애플리케이션은 텍스트 렌더링을 위해 'Pretendard', 'Inter', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Arial' 중 하나를 사용합니다. 해당 폰트 중 하나 이상이 시스템에 설치되어 있어야 합니다.
 
+### 의존성 패키지
 
-| Params        | Default            | Description                       |
-| --------------- | ----------------- | ---------------------------------------- |
-| `name`          | `wlgns06`         | 레이팅을 조회할 Solved.ac 사용자명        |
-| `fill`          | `True`            | 그래프 아래를 색으로 채울지 여부          |
-| `color`         | `mediumseagreen`  | 그래프 선 및 채우기 색상                  |
-| `outerbgcolor`  | `white`           | 이미지의 배경색                           |
-| `innerbgcolor`  | `white`           | 그래프 영역의 배경색                      |
-| `pointcolor`    | `darkcyan`        | 사용자 레이팅을 표시하는 포인트의 색상    |
-| `textcolor`     | `teal`            | 제목 등의 텍스트 색상                     |
-| `size`          | `100`             | 이미지의 DPI 설정                         |
+다음의 Python 패키지가 필요합니다:
 
+* `fastapi`
+* `uvicorn`
+* `aiohttp`
+* `pandas`
+* `numpy`
+* `scipy`
+* `matplotlib`
 
+## 설치 방법
 
+1. 저장소를 복제(Clone)합니다.
+2. pip를 사용하여 필요한 의존성을 설치합니다:
 
-## Functions
-- **사용자 레이팅 조회**: 입력한 Solved.ac 사용자명의 레이팅을 조회합니다.
-- **KDE 그래프 생성**: 전체 사용자 레이팅 데이터를 기반으로 KDE 그래프를 생성합니다.
-- **이미지 반환**: 생성된 그래프에 사용자의 레이팅을 표시하여 이미지로 반환합니다.
-- **주기적인 데이터 수집**: 백그라운드에서 별도의 스레드를 통해 사용자 레이팅 데이터를 주기적으로 수집하고 업데이트합니다.
+```bash
+pip install fastapi uvicorn aiohttp pandas numpy scipy matplotlib
+```
 
-## Requirements
+## 애플리케이션 실행
 
-- Python 3.7 이상
-  - `fastapi`
-  - `uvicorn`
-  - `pandas`
-  - `matplotlib`
-  - `numpy`
-  - `scipy`
-  - `aiohttp`
-  - `requests`
+서버를 시작하려면 Python 스크립트를 직접 실행합니다. 이 애플리케이션은 `uvicorn`을 ASGI 서버로 사용합니다.
 
-## Installation
+```bash
+python main.py
+```
 
-1. **Clone Repository**
+기본 설정으로 서버는 `0.0.0.0`의 `8000` 포트에서 수신 대기합니다.
 
-       git clone https://github.com/yourusername/solvedac-rating-image-generator.git
-       cd solvedac-rating-image-generator
+* **초기화 동작**: 시스템 초기화 시 기존 레이팅 데이터(`ratings_finished.csv`)를 로드합니다. 파일이 존재하지 않는 경우, 임시 더미 데이터를 생성하여 서비스를 즉시 시작하고 백그라운드 수집기를 가동합니다.
 
-2. **Create venv**
+## API 참조
 
-       python -m venv venv
-       source venv/bin/activate  # Windows의 경우: venv\Scripts\activate
-       pip install -r requirements.txt
+### 사용자 레이팅 배지 조회
 
-## Usage
+사용자의 레이팅 분포를 나타내는 생성된 이미지를 반환합니다.
 
-    uvicorn app:app --host 0.0.0.0 --port 5000
+**엔드포인트**
+`GET /user-rating-image`
 
-또는 파이썬에서 실행:
+**파라미터**
 
-    python app.py
+| 파라미터 | 타입 | 필수 여부 | 기본값 | 설명 |
+| :--- | :--- | :--- | :--- | :--- |
+| `name` | string | **예** | - | 조회할 Solved.ac 사용자 ID입니다. |
+| `theme` | string | 아니요 | `dark` | 시각 테마입니다. 옵션: `light`, `dark`, `emerald`. |
+| `color` | string | 아니요 | *자동* | 그래프 강조 색상(HEX 코드, 예: `#FF0000`)입니다. 기본값은 티어 색상입니다. |
+| `width` | float | 아니요 | `4.0` | 이미지 너비(인치 단위)입니다. |
+| `height` | float | 아니요 | `2.6` | 이미지 높이(인치 단위)입니다. |
+| `size_dpi` | int | 아니요 | `100` | 해상도(DPI)입니다. |
+| `format` | string | 아니요 | `svg` | 출력 형식입니다. 옵션: `svg`, `png`. |
+| `plot_type`| string | 아니요 | `kde` | 시각화 방식입니다. 옵션: `kde`, `histogram`. |
 
-## 사용 방법
+**요청 예시**
 
-웹 브라우저나 HTTP 클라이언트를 통해 다음 엔드포인트에 접근합니다:
+```http
+GET /user-rating-image?name=example_user&theme=dark&format=svg
+```
 
-    GET /user-rating-image
+**응답**
 
+* `200 OK`: 이미지 파일 스트림을 반환합니다 (MIME 타입: `image/svg+xml` 또는 `image/png`).
+* 사용자를 찾을 수 없거나 외부 API 호출 중 오류가 발생한 경우, 레이팅이 0인 배지를 반환합니다.
 
+## 시스템 아키텍처
 
+### 데이터 수집
 
-## Cautions
+`collect_ranking_data` 코루틴이 데이터 수집을 담당하며 다음과 같이 동작합니다:
 
-- **API 제한**: Solved.ac API의 호출 제한에 유의하세요. 과도한 요청 시 일시적으로 차단될 수 있습니다.
-- **데이터 수집 주기**: `COLLECTION_INTERVAL` 변수를 통해 데이터 수집 주기를 설정할 수 있습니다. 기본값은 하루(60 * 60 * 24초)입니다.
-- **데이터 저장**: 수집된 레이팅 데이터는 `ratings.csv` 파일에 저장되며, KDE 계산을 위해 사용됩니다.
+1.  **반복적 수집**: Solved.ac API의 랭킹 페이지를 순차적으로 조회합니다.
+2.  **속도 제한 준수**: API 레이트 리밋(Rate Limit)을 준수하기 위해 지정된 요청 횟수(`REQUESTS_PER_CYCLE`)마다 실행을 일시 중단합니다.
+3.  **원자적 업데이트 (Atomic Updates)**:
+    * 수집된 데이터는 먼저 임시 파일(`ratings_temp.csv`)에 기록됩니다.
+    * 작성이 완료되면 `os.replace`를 사용하여 임시 파일을 운영 파일(`ratings_finished.csv`)로 교체합니다. 이를 통해 읽기 프로세스가 손상되거나 불완전한 파일에 접근하는 것을 방지합니다.
 
-## License
+### 데이터 관리 및 캐싱
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참고하세요.
+`DataManager` 클래스는 데이터 접근을 위한 싱글톤으로 동작합니다:
+
+* **초기화**: CSV 데이터를 Pandas DataFrame으로 로드합니다.
+* **캐싱 메커니즘**: 분포 데이터(KDE 객체, 히스토그램 빈)는 최초 계산 시 `self.cache` 딕셔너리에 저장됩니다. 수집기에 의해 데이터셋이 업데이트되면 캐시는 자동으로 무효화되고 재구성됩니다.
+
+## 구성 (Configuration)
+
+주요 설정 상수는 스크립트 상단에 정의되어 있으며 필요에 따라 수정할 수 있습니다:
+
+* `RATING_DATA_FILE`: 활성 데이터셋 파일 경로입니다.
+* `COLLECTION_INTERVAL`: 데이터 수집 주기(초 단위)입니다 (기본값: 24시간).
+* `WAIT_TIME_LIMIT`: API 속도 제한 회복을 위한 대기 시간입니다 (기본값: 60분).
+* `TIER_COLORS`: 레이팅 임계값에 따른 색상 코드 매핑입니다.
+
+## 로깅
+
+애플리케이션은 표준 Python `logging` 모듈을 사용합니다. 로그에는 타임스탬프, 심각도 수준 및 다음 메시지가 포함됩니다:
+* 서버 시작 및 종료
+* 데이터 수집 진행 상황 및 상태
+* 파일 작업 (저장/로드/교체)
+* API 요청 및 파일 입출력 오류 처리

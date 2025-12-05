@@ -1,14 +1,7 @@
 # Solved.ac 레이팅 분포 배지 서비스
 
 ## 개요
-
  Solved.ac 사용자의 레이팅을 시각화하여 배지를 생성합니다. 전체 사용자 대비 특정 사용자의 위치를 보여주는 이미지(SVG 또는 PNG)로 제공합니다.
-
-
-## 사전 요구 사항
-
-* **Python**: 3.8 버전 이상
-* **시스템 폰트**: 애플리케이션은 텍스트 렌더링을 위해 'Pretendard', 'Inter', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Arial' 중 하나를 사용합니다. 해당 폰트 중 하나 이상이 시스템에 설치되어 있어야 합니다.
 
 ### 의존성 패키지
 
@@ -75,25 +68,6 @@ GET /user-rating-image?name=example_user&theme=dark&format=svg
 
 * `200 OK`: 이미지 파일 스트림을 반환합니다 (MIME 타입: `image/svg+xml` 또는 `image/png`).
 * 사용자를 찾을 수 없거나 외부 API 호출 중 오류가 발생한 경우, 레이팅이 0인 배지를 반환합니다.
-
-## 시스템 아키텍처
-
-### 데이터 수집
-
-`collect_ranking_data` 코루틴이 데이터 수집을 담당하며 다음과 같이 동작합니다:
-
-1.  **반복적 수집**: Solved.ac API의 랭킹 페이지를 순차적으로 조회합니다.
-2.  **속도 제한 준수**: API 레이트 리밋(Rate Limit)을 준수하기 위해 지정된 요청 횟수(`REQUESTS_PER_CYCLE`)마다 실행을 일시 중단합니다.
-3.  **원자적 업데이트 (Atomic Updates)**:
-    * 수집된 데이터는 먼저 임시 파일(`ratings_temp.csv`)에 기록됩니다.
-    * 작성이 완료되면 `os.replace`를 사용하여 임시 파일을 운영 파일(`ratings_finished.csv`)로 교체합니다. 이를 통해 읽기 프로세스가 손상되거나 불완전한 파일에 접근하는 것을 방지합니다.
-
-### 데이터 관리 및 캐싱
-
-`DataManager` 클래스는 데이터 접근을 위한 싱글톤으로 동작합니다:
-
-* **초기화**: CSV 데이터를 Pandas DataFrame으로 로드합니다.
-* **캐싱 메커니즘**: 분포 데이터(KDE 객체, 히스토그램 빈)는 최초 계산 시 `self.cache` 딕셔너리에 저장됩니다. 수집기에 의해 데이터셋이 업데이트되면 캐시는 자동으로 무효화되고 재구성됩니다.
 
 ## 구성 (Configuration)
 

@@ -1,7 +1,8 @@
-# Solved.ac 레이팅 분포 배지 서비스
+# Solved.ac 레이팅 분포 배지
 
 ## 개요
  Solved.ac 사용자의 레이팅을 시각화하여 배지를 생성합니다. 전체 사용자 대비 특정 사용자의 위치를 보여주는 이미지(SVG 또는 PNG)로 제공합니다.
+<img width="780" height="507" alt="image" src="https://github.com/user-attachments/assets/228a3763-1ce7-4028-85f8-22598b7188cd" />
 
 ### 의존성 패키지
 

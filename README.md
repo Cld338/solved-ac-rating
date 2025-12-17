@@ -3,7 +3,7 @@
 ## 개요
  Solved.ac 사용자의 레이팅을 시각화하여 배지를 생성합니다. 전체 사용자 대비 특정 사용자의 위치를 보여주는 이미지(SVG 또는 PNG)로 제공합니다.
  
-<img width="384" height="249" alt="image" src="[https://github.com/user-attachments/assets/228a3763-1ce7-4028-85f8-22598b7188cd](https://camo.githubusercontent.com/ca2d6f95b93365dbf6d6061b5b4ae367cea3fb9c95ed3507a3eac0fc3675fd80/68747470733a2f2f726174696e67732e636c643333382e6d652f757365722d726174696e672d696d6167653f6e616d653d776c676e733036267468656d653d6461726b26666f726d61743d737667)" />
+<img width="384" height="249" alt="image" src="https://ratings.cld338.me/user-rating-image?name=wlgns06&theme=dark&format=svg" />
 
 ### Dependancy
 다음의 Python 패키지가 필요합니다:

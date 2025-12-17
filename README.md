@@ -5,8 +5,7 @@
  
 <img width="384" height="249" alt="image" src="https://github.com/user-attachments/assets/228a3763-1ce7-4028-85f8-22598b7188cd" />
 
-### 의존성 패키지
-
+### Dependancy
 다음의 Python 패키지가 필요합니다:
 
 * `fastapi`
@@ -16,27 +15,6 @@
 * `numpy`
 * `scipy`
 * `matplotlib`
-
-## 설치 방법
-
-1. 저장소를 복제(Clone)합니다.
-2. pip를 사용하여 필요한 의존성을 설치합니다:
-
-```bash
-pip install fastapi uvicorn aiohttp pandas numpy scipy matplotlib
-```
-
-## 애플리케이션 실행
-
-서버를 시작하려면 Python 스크립트를 직접 실행합니다. 이 애플리케이션은 `uvicorn`을 ASGI 서버로 사용합니다.
-
-```bash
-python main.py
-```
-
-기본 설정으로 서버는 `0.0.0.0`의 `8000` 포트에서 수신 대기합니다.
-
-* **초기화 동작**: 시스템 초기화 시 기존 레이팅 데이터(`ratings_finished.csv`)를 로드합니다. 파일이 존재하지 않는 경우, 임시 더미 데이터를 생성하여 서비스를 즉시 시작하고 백그라운드 수집기를 가동합니다.
 
 ## API 참조
 

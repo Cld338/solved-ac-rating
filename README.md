@@ -41,7 +41,7 @@
 **요청 예시**
 
 ```http
-GET /user-rating-image?name=example_user&theme=dark&format=svg
+GET https://ratings.cld338.me/user-rating-image?name=example_user&theme=dark&format=svg
 ```
 
 **응답**
